@@ -1,0 +1,91 @@
+{
+  "userData": {
+    "employee": {
+      "email": "johndoe@gamil.com",
+      "password": "",
+      "userId": "",
+      "name": "John Doe",
+      "designation": "Employee",
+      "dashboard": {
+        "request": {
+          "Total Request Raised": 18,
+          "Request accepted": 13,
+          "Request rejected": 2,
+          "Request pending on manager side": 2,
+          "Request pending on finance side": 1
+        },
+        "department_budget": {
+          "Department Quaterly Budget": 300000,
+          "Remaining Amt": 100000,
+          "Spent Amt": 20000
+        }
+      }
+    },
+    "manager": {
+      "email": "sanketpatil@gamil.com",
+      "password": "",
+      "userId": "",
+      "name": "Sanket Patil",
+      "designation": "Manager",
+      "dashboard": {
+        "request": {
+          "Total Request Raised": 18,
+          "Request accepted": 13,
+          "Request rejected": 2,
+          "Request pending on manager side": 2,
+          "Request pending on finance side": 1
+        },
+        "approvals": {
+          "Total Request Received": 27,
+          "Request accepted": 20,
+          "Request rejected": 5,
+          "Request pending": 2,
+          "Request pending on finance side": 1
+        },
+        "department_budget": {
+          "Department Quaterly Budget": 300000,
+          "Remaining Amt": 100000,
+          "Spent Amt": 20000
+        }
+      }
+    }
+  },
+  "tableData": [
+    {
+      "travelId": 1,
+      "startDate": "15 Oct 2024",
+      "source": "Baner, Pune",
+      "destination": "Mahim, Mumbai",
+      "returnDate": "20 Oct 2024",
+      "reason": "Office to Office",
+      "status": "Approved"
+    },
+    {
+      "travelId": 2,
+      "startDate": "20 Nov 2024",
+      "source": "Baner, Pune",
+      "destination": "Jumeirah Beach Residence (JBR), Dubai",
+      "returnDate": "24 Nov 2024",
+      "reason": "Client Meeting",
+      "status": "Pending"
+    },
+    {
+      "travelId": 3,
+      "startDate": "15 Dec 2024",
+      "source": "Pune",
+      "destination": "Rajendra Nagar, Delhi",
+      "returnDate": "18 Dec 2024",
+      "reason": "Client Location working",
+      "status": "Rejected"
+    },
+    {
+      "travelId": 5,
+      "startDate": "15 Dec 2024",
+      "source": "Baner, Pune",
+      "destination": "New Delhi",
+      "returnDate": "15 Dec 2024",
+      "reason": "Officail Government Work",
+      "status": "Approved"
+    }
+  ]
+}

@@ -1,33 +1,30 @@
 import React, { useState } from "react";
-import { Button, Table, TextInput } from "flowbite-react";
+import { Button, TextInput } from "flowbite-react";
 import common from "../assets/Json/common.json";
 import RequestDialogue from "./RequestDialogue";
 
 const DashRequests = () => {
   const tableData = common.tableData;
 
-  // State to manage the search input value
   const [searchTerm, setSearchTerm] = useState("");
-  const [requestDialogue, setRequestDialogue] = useState(false); // Fixed typo here
+  const [requestDialogue, setRequestDialogue] = useState(false);
 
-  // Filtered table data based on the search term
   const filteredData = tableData.filter((travel) =>
     Object.values(travel).some((value) =>
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
-  // Function to determine status class
-  const getStatusClass = (status) => {
+  const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "approved":
-        return "text-green-700"; // Light green background and dark green text
+        return "text-green-500";
       case "pending":
-        return "text-blue-700"; // Light blue background and dark blue text
+        return "text-blue-700";
       case "rejected":
-        return "text-red-700"; // Light red background and dark red text
+        return "text-red-700";
       default:
-        return ""; // No special styling
+        return "text-gray-600"; // Default color
     }
   };
 
@@ -53,70 +50,70 @@ const DashRequests = () => {
         gradientDuoTone="pinkToOrange"
         outline={true}
         className="bg-transparent text-white border-white absolute top-[5.2rem] right-10"
-        onClick={handleClick} // Fixed this line
+        onClick={handleClick}
       >
         Create request
       </Button>
-      <div className="overflow-x-auto">
-        <Table className="min-w-full border-collapse border border-gray-300">
-          <Table.Head>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+      <div className="mt-5 md:mt-0 overflow-y-auto">
+        <div>
+          <hr className="w-full border-2 my-3" />
+          <div className="flex flex-row justify-evenly text-center mx-1">
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Travel ID
-            </Table.HeadCell>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+            </p>
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Start Date
-            </Table.HeadCell>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+            </p>
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Source
-            </Table.HeadCell>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+            </p>
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Destination
-            </Table.HeadCell>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+            </p>
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Return Date
-            </Table.HeadCell>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+            </p>
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Reason
-            </Table.HeadCell>
-            <Table.HeadCell className="border border-gray-300 bg-gray-100 font-bold">
+            </p>
+            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
               Status
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body>
-            {filteredData.map((travel) => (
-              <Table.Row
-                key={travel.travelId}
-                className="border-b border-gray-200"
-              >
-                <Table.Cell className="border border-gray-300">
+            </p>
+          </div>
+          <hr className="w-full border-2 my-3" />
+          {filteredData.map((travel) => (
+            <React.Fragment key={travel.travelId}>
+              <div className="flex flex-row justify-evenly items-center mx-1 md:mx-20 text-center">
+                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.travelId}
-                </Table.Cell>
-                <Table.Cell className="border border-gray-300">
+                </p>
+                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.startDate}
-                </Table.Cell>
-                <Table.Cell className="border border-gray-300">
+                </p>
+                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.source}
-                </Table.Cell>
-                <Table.Cell className="border border-gray-300">
+                </p>
+                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.destination}
-                </Table.Cell>
-                <Table.Cell className="border border-gray-300">
+                </p>
+                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.returnDate}
-                </Table.Cell>
-                <Table.Cell className="border border-gray-300">
+                </p>
+                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.reason}
-                </Table.Cell>
-                <Table.Cell
-                  className={`border border-gray-300 ${getStatusClass(
+                </p>
+                <p
+                  className={`w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium mb-1 ${getStatusColor(
                     travel.status
                   )}`}
                 >
                   {travel.status}
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+                </p>
+              </div>
+              <hr className="w-full my-3 border-2" />
+            </React.Fragment>
+          ))}
+        </div>
       </div>
       <RequestDialogue visible={requestDialogue} onHide={onHide} />
     </>

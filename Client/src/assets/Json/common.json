@@ -79,12 +79,12 @@
       "status": "Rejected"
     },
     {
-      "travelId": 5,
+      "travelId": 4,
       "startDate": "15 Dec 2024",
       "source": "Baner, Pune",
       "destination": "New Delhi",
       "returnDate": "15 Dec 2024",
-      "reason": "Officail Government Work",
+      "reason": "Official Government Work",
       "status": "Approved"
     }
   ]

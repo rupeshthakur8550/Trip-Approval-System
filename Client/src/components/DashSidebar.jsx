@@ -23,7 +23,7 @@ const DashSidebar = () => {
             <Link to="/dashboard?tab=requests">
               <Sidebar.Item
                 icon={FaGreaterThan}
-                label="Employee"
+                label={user.designation}
                 labelColor="dark"
                 as="div"
               >
@@ -42,7 +42,7 @@ const DashSidebar = () => {
           <div className=" absolute bottom-6 w-[12%]">
             <Sidebar.Item
               icon={MdOutlineLogout}
-              className="cursor-pointer align-self-end w-full"
+              className="cursor-pointer text-red-600 align-self-end w-full"
               onClick={() => console.log("Sign Out")}
             >
               Sign Out

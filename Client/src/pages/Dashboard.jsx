@@ -21,6 +21,7 @@ const Dashboard = () => {
     }
     // console.log(selectedDashboard);
   }, [location.search]);
+
   return (
     <div className="flex flex-row h-[90%] w-[100%] mt-3">
       <div>

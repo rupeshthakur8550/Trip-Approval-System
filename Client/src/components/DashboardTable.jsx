@@ -5,9 +5,41 @@ import { useSelector } from "react-redux";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const ChartWithTable = ({ title, chartData, total }) => {
+  return (
+    <div className="flex flex-col items-center">
+      <h2>{title}</h2>
+      <div
+        style={{ width: "400px", height: "400px" }}
+        className="flex justify-center items-center mb-5"
+      >
+        <Pie data={chartData} />
+      </div>
+      <h1 className="font-bold">Total: {total}</h1>
+      <table className="border-collapse border border-gray-200 mt-10">
+        <thead>
+          <tr>
+            <th className="border border-gray-300 p-2">Status</th>
+            <th className="border border-gray-300 p-2">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chartData.labels.map((label, index) => (
+            <tr key={index}>
+              <td className="border border-gray-300 p-2">{label}</td>
+              <td className="border border-gray-300 p-2">
+                {chartData.datasets[0].data[index]}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const DashboardTable = () => {
   const user = useSelector((state) => state.user.user);
-
   const designation = user ? user.designation : null;
 
   let requestData = {};
@@ -23,7 +55,6 @@ const DashboardTable = () => {
     budgetData = user.dashboard?.department_budget || {};
   }
 
-  // Ensure requestData exists before proceeding
   if (!requestData) {
     return <div>No request data available.</div>;
   }
@@ -50,35 +81,27 @@ const DashboardTable = () => {
     ],
   };
 
-  // Define approvalChartData only if the user is a manager
   let approvalChartData = {
-    labels: [],
-    datasets: [],
+    labels: [
+      "Request Accepted",
+      "Request Rejected",
+      "Request Pending",
+      "Request Pending on Finance Side",
+    ],
+    datasets: [
+      {
+        label: "Approval Status",
+        data: [
+          approvalData["Request accepted"] || 0,
+          approvalData["Request rejected"] || 0,
+          approvalData["Request pending"] || 0,
+          approvalData["Request pending on finance side"] || 0,
+        ],
+        backgroundColor: ["#4CAF50", "#F44336", "#2196F3", "#FF9800"],
+        borderWidth: 1,
+      },
+    ],
   };
-
-  if (designation === "Manager") {
-    approvalChartData = {
-      labels: [
-        "Request Accepted",
-        "Request Rejected",
-        "Request Pending",
-        "Request Pending on Finance Side",
-      ],
-      datasets: [
-        {
-          label: "Approval Status",
-          data: [
-            approvalData["Request accepted"] || 0,
-            approvalData["Request rejected"] || 0,
-            approvalData["Request pending"] || 0,
-            approvalData["Request pending on finance side"] || 0,
-          ],
-          backgroundColor: ["#4CAF50", "#F44336", "#2196F3", "#FF9800"],
-          borderWidth: 1,
-        },
-      ],
-    };
-  }
 
   const budgetChartData = {
     labels: ["Department Quarterly Budget", "Remaining Amount", "Spent Amount"],
@@ -97,48 +120,29 @@ const DashboardTable = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-[87vh]">
-      <div className="flex">
-        <div className="flex flex-col items-center">
-          <h2>Request Status Overview</h2>
-          <div
-            style={{ width: "300px", height: "300px" }}
-            className="flex justify-center items-center mb-5"
-          >
-            <Pie data={requestChartData} />
-          </div>
-          <h1 className="font-bold">
-            Total Requests: {requestData["Total Request Raised"] || 0}
-          </h1>
-        </div>
+    <div className="flex flex-col gap-10 justify-center items-center h-[87vh]">
+      <div className="flex gap-16">
+        <ChartWithTable
+          title="Request Status Overview"
+          chartData={requestChartData}
+          total={requestData["Total Request Raised"] || 0}
+        />
 
         {designation === "Manager" && (
-          <div className="flex flex-col items-center">
-            <h2>Approval Status Overview</h2>
-            <div
-              style={{ width: "300px", height: "300px" }}
-              className="flex justify-center items-center"
-            >
-              <Pie data={approvalChartData} />
-            </div>
-            <h1 className="font-bold">
-              Total Approvals: {approvalData["Total Request Received"] || 0}
-            </h1>
-          </div>
+          <ChartWithTable
+            title="Approval Status Overview"
+            chartData={approvalChartData}
+            total={approvalData["Total Request Received"] || 0}
+          />
         )}
-        <div className="flex flex-col items-center">
-          <h2>Budget Overview</h2>
-          <div
-            style={{ width: "300px", height: "300px" }}
-            className="flex justify-center items-center"
-          >
-            <Pie data={budgetChartData} />
-          </div>
-          <h1 className="font-bold">
-            Total Budget: {budgetData["Department Quaterly Budget"] || 0}
-          </h1>
-        </div>
+
+        <ChartWithTable
+          title="Budget Overview"
+          chartData={budgetChartData}
+          total={budgetData["Department Quaterly Budget"] || 0}
+        />
       </div>
+      {/* Other content can go here */}
     </div>
   );
 };

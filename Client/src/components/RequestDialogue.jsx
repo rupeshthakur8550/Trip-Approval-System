@@ -1,4 +1,4 @@
-import { Modal } from "flowbite-react";
+import { Modal, Button } from "flowbite-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
@@ -36,7 +36,7 @@ const DatePickerField = ({ label, selectedDate, setValue, name }) => {
   );
 };
 
-const RequestDialogue = ({ visible, onHide }) => {
+const RequestDialogue = ({ visible, onHide, onNext }) => {
   const {
     register,
     handleSubmit,
@@ -50,12 +50,12 @@ const RequestDialogue = ({ visible, onHide }) => {
 
   const onSubmit = (data) => {
     console.log("Form submitted:", data);
-    onHide(); // Close the modal after submission
+    onNext(data); // Call onNext with form data
   };
 
   return (
     <Modal show={visible} onClose={onHide}>
-      <Modal.Header>Create Request</Modal.Header>
+      <Modal.Header>Employee Details</Modal.Header>
       <Modal.Body>
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
@@ -76,6 +76,12 @@ const RequestDialogue = ({ visible, onHide }) => {
             register={register}
             name="destination"
             error={errors.destination}
+          />
+          <InputField
+            label="Reporting Manager"
+            register={register}
+            name="manager"
+            error={errors.manager}
           />
           <div className="flex gap-5">
             <DatePickerField
@@ -100,17 +106,23 @@ const RequestDialogue = ({ visible, onHide }) => {
           />
         </form>
       </Modal.Body>
-      <Modal.Footer>
-        <button className="btn" onClick={onHide}>
+      <Modal.Footer className="flex justify-between">
+        <Button
+          gradientDuoTone="pinkToOrange"
+          outline={true}
+          className="bg-transparent text-white border-white"
+          onClick={onHide}
+        >
           Cancel
-        </button>
-        <button
-          type="submit"
-          className="btn btn-primary"
+        </Button>
+        <Button
+          gradientDuoTone="greenToBlue"
+          outline={true}
+          className="bg-transparent text-white border-white"
           onClick={handleSubmit(onSubmit)}
         >
-          Save
-        </button>
+          Next
+        </Button>
       </Modal.Footer>
     </Modal>
   );

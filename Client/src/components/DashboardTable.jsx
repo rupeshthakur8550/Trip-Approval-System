@@ -8,7 +8,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const ChartWithTable = ({ title, chartData, total }) => {
   return (
     <div className="flex flex-col items-center">
-      <h2>{title}</h2>
+      <h2 className=" font-bold text-3xl">{title}</h2>
       <div
         style={{ width: "400px", height: "400px" }}
         className="flex justify-center items-center mb-5"
@@ -55,6 +55,8 @@ const DashboardTable = () => {
     budgetData = user.dashboard?.department_budget || {};
   }
 
+  // console.log(requestData);
+
   if (!requestData) {
     return <div>No request data available.</div>;
   }
@@ -70,16 +72,18 @@ const DashboardTable = () => {
       {
         label: "Request Status",
         data: [
-          requestData["Request accepted"] || 0,
-          requestData["Request rejected"] || 0,
-          requestData["Request pending on manager side"] || 0,
-          requestData["Request pending on finance side"] || 0,
+          requestData["Request Accepted"] || 0,
+          requestData["Request Rejected"] || 0,
+          requestData["Request Pending on Manager Side"] || 0,
+          requestData["Request Pending on Finance Side"] || 0,
         ],
         backgroundColor: ["#4CAF50", "#F44336", "#2196F3", "#FF9800"],
         borderWidth: 1,
       },
     ],
   };
+
+  console.log(requestChartData);
 
   let approvalChartData = {
     labels: [
@@ -92,10 +96,10 @@ const DashboardTable = () => {
       {
         label: "Approval Status",
         data: [
-          approvalData["Request accepted"] || 0,
-          approvalData["Request rejected"] || 0,
-          approvalData["Request pending"] || 0,
-          approvalData["Request pending on finance side"] || 0,
+          approvalData["Request Accepted"] || 0,
+          approvalData["Request Rejected"] || 0,
+          approvalData["Request Pending"] || 0,
+          approvalData["Request Pending on Finance Side"] || 0,
         ],
         backgroundColor: ["#4CAF50", "#F44336", "#2196F3", "#FF9800"],
         borderWidth: 1,
@@ -104,14 +108,13 @@ const DashboardTable = () => {
   };
 
   const budgetChartData = {
-    labels: ["Department Quarterly Budget", "Remaining Amount", "Spent Amount"],
+    labels: ["Remaining Amount", "Spent Amount"],
     datasets: [
       {
         label: "Budget Overview",
         data: [
-          budgetData["Department Quaterly Budget"] || 0,
-          budgetData["Remaining Amt"] || 0,
-          budgetData["Spent Amt"] || 0,
+          budgetData["Remaining Amount"] || 0,
+          budgetData["Spent Amount"] || 0,
         ],
         backgroundColor: ["#4CAF50", "#FF9800", "#F44336"],
         borderWidth: 1,
@@ -123,23 +126,23 @@ const DashboardTable = () => {
     <div className="flex flex-col gap-10 justify-center items-center h-[87vh]">
       <div className="flex gap-16">
         <ChartWithTable
-          title="Request Status Overview"
+          title="Self Request Status Overview"
           chartData={requestChartData}
           total={requestData["Total Request Raised"] || 0}
         />
 
         {designation === "Manager" && (
           <ChartWithTable
-            title="Approval Status Overview"
+            title="Employees Status Overview"
             chartData={approvalChartData}
             total={approvalData["Total Request Received"] || 0}
           />
         )}
 
         <ChartWithTable
-          title="Budget Overview"
+          title="Total Budget Overview"
           chartData={budgetChartData}
-          total={budgetData["Department Quaterly Budget"] || 0}
+          total={budgetData["Department Quarterly Budget"] || 0}
         />
       </div>
       {/* Other content can go here */}

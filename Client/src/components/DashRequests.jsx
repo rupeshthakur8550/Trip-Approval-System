@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Button, TextInput } from "flowbite-react";
 import common from "../assets/Json/common.json";
 import RequestDialogue from "./RequestDialogue";
+import RequestDialogueTravelDetails from "./RequestDialogueTravelDetails";
 
 const DashRequests = () => {
   const tableData = common.tableData;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [requestDialogue, setRequestDialogue] = useState(false);
+  const [traveldetails, setTravelDetails] = useState(false);
 
   const filteredData = tableData.filter((travel) =>
     Object.values(travel).some((value) =>
@@ -34,6 +36,12 @@ const DashRequests = () => {
 
   const onHide = () => {
     setRequestDialogue(false);
+    setTravelDetails(false);
+  };
+
+  const onNext = () => {
+    setRequestDialogue(false);
+    setTravelDetails(true);
   };
 
   return (
@@ -54,56 +62,51 @@ const DashRequests = () => {
       >
         Create request
       </Button>
-      <div className="mt-5 md:mt-0 overflow-y-auto">
-        <div>
+      <div className="mt-5 md:mt-0">
+        <div className="overflow-y-auto h-[84vh]">
           <hr className="w-full border-2 my-3" />
-          <div className="flex flex-row justify-evenly text-center mx-1">
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Travel ID
-            </p>
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Start Date
-            </p>
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Source
-            </p>
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Destination
-            </p>
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Return Date
-            </p>
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Reason
-            </p>
-            <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2">
-              Status
-            </p>
+          <div className="flex flex-row justify-between text-center mx-1">
+            {[
+              "Travel ID",
+              "Start Date",
+              "Source",
+              "Destination",
+              "Return Date",
+              "Reason",
+              "Status",
+            ].map((header) => (
+              <p
+                key={header}
+                className="flex-1 tracking-widest md:text-lg text-xs font-medium text-gray-600 mt-2"
+              >
+                {header}
+              </p>
+            ))}
           </div>
           <hr className="w-full border-2 my-3" />
           {filteredData.map((travel) => (
             <React.Fragment key={travel.travelId}>
-              <div className="flex flex-row justify-evenly items-center mx-1 md:mx-20 text-center">
-                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
+              <div className="flex flex-row justify-between items-center mx-1 text-center">
+                <p className="flex-1 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.travelId}
                 </p>
-                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
+                <p className="flex-1 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.startDate}
                 </p>
-                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
+                <p className="flex-1 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.source}
                 </p>
-                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
+                <p className="flex-1 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.destination}
                 </p>
-                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
+                <p className="flex-1 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.returnDate}
                 </p>
-                <p className="w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
+                <p className="flex-1 tracking-widest md:text-lg text-xs title-font font-medium text-gray-800 mb-1">
                   {travel.reason}
                 </p>
                 <p
-                  className={`w-full md:w-1/6 tracking-widest md:text-lg text-xs title-font font-medium mb-1 ${getStatusColor(
+                  className={`flex-1 tracking-widest md:text-lg text-xs title-font font-medium mb-1 ${getStatusColor(
                     travel.status
                   )}`}
                 >
@@ -115,7 +118,16 @@ const DashRequests = () => {
           ))}
         </div>
       </div>
-      <RequestDialogue visible={requestDialogue} onHide={onHide} />
+      <RequestDialogue
+        visible={requestDialogue}
+        onHide={onHide}
+        onNext={onNext}
+      />
+      <RequestDialogueTravelDetails
+        visible={traveldetails}
+        onHide={onHide}
+        categories={common.categories}
+      />
     </>
   );
 };
